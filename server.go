@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
-	"github.com/jessemillar/rytsar/accessors"
-	"github.com/jessemillar/rytsar/controllers"
+	"github.com/jessemillar/rytsar-server/accessors"
+	"github.com/jessemillar/rytsar-server/controllers"
 	"github.com/zenazn/goji"
 )
 

@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/jessemillar/rytsar/models"
+	"github.com/jessemillar/rytsar-server/models"
 )
 
 // MakeUser adds a user to the database

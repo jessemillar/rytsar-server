@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/jessemillar/rytsar/helpers"
+	"github.com/jessemillar/rytsar-server/helpers"
 	"github.com/zenazn/goji/web"
 )
 

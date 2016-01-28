@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/jessemillar/rytsar/models"
+	"github.com/jessemillar/rytsar-server/models"
 )
 
 // GetShare gets the given user's investment in a given symbol

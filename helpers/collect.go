@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/jessemillar/rytsar/accessors"
-	"github.com/jessemillar/rytsar/models"
+	"github.com/jessemillar/rytsar-server/accessors"
+	"github.com/jessemillar/rytsar-server/models"
 )
 
 // Collect marks certain loot as collected for the specified user
