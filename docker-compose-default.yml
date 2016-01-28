@@ -1,0 +1,20 @@
+rytsar:
+  build: .
+  ports:
+   - "15000:8000"
+  links:
+   - mysql
+  environment:
+    RYTSAR_DB_HOST: mysql
+    RYTSAR_DB_PASS: knight
+    RYTSAR_DB_USER: loot
+    RYTSAR_DB_PORT: 3306
+    RYTSAR_DB_NAME: rytsar
+    
+mysql:
+  image: mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: test
+    MYSQL_DATABASE: rytsar
+    MYSQL_USER: knight
+    MYSQL_PASSWORD: loot
