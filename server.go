@@ -22,6 +22,5 @@ func main() {
 
 	goji.Get("/health", cg.Health) // Service health
 	goji.Get("/database", cg.DumpDatabase)
-	goji.Post("/collect/:latitude/:longitude", cg.Collect)
 	goji.Serve()
 }

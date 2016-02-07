@@ -7,8 +7,8 @@ import (
 )
 
 // Returns an array of all loot locations and values to plot on the map in iOS
-func (ag *AccessorGroup) DumpDatabase(sqlString string) (string, error) {
-	rows, err := ag.DB.Query(sqlString)
+func (ag *AccessorGroup) DumpDatabase() (string, error) {
+	rows, err := ag.DB.Query("SELECT * FROM enemies")
 	if err != nil {
 		log.Panic(err)
 	}
