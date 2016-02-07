@@ -9,4 +9,4 @@ RUN go install -v
 
 CMD ["/go/bin/rytsar"]
 
-EXPOSE 9000
+EXPOSE 8000
