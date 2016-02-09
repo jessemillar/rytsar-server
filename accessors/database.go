@@ -12,7 +12,7 @@ import (
 	"github.com/kellydunn/golang-geo"
 )
 
-const nearbyEnemyCap = 100
+const nearbyEnemyCap = 300
 
 // Returns an array of all loot locations and values to plot on the map in iOS
 func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float64, radius float64) (string, error) {
