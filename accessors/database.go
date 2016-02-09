@@ -14,6 +14,10 @@ import (
 
 const nearbyEnemyCap = 100
 
+func init() {
+	rand.Seed(time.Now().UTC().UnixNano())
+}
+
 // Returns an array of all loot locations and values to plot on the map in iOS
 func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float64, radius float64) (string, error) {
 	currentEnemyCount, err := ag.CountNearbyEnemies(userLatitude, userLongitude, radius)
@@ -152,7 +156,6 @@ func (ag *AccessorGroup) AddEnemies(userLatitude float64, userLongitude float64,
 	iterations := enemyCap - currentEnemyCount
 
 	for i := 0; i < iterations; i++ {
-		rand.Seed(time.Now().UTC().UnixNano())
 		w := radius / 111 * math.Sqrt(rand.Float64())
 		t := 2 * math.Pi * rand.Float64()
 		x := w * math.Cos(t)
