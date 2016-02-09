@@ -47,6 +47,8 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 			entry[col] = v
 		}
 
+		fmt.Printf("%T %v\n", entry["latitude"], entry["latitude"])
+
 		latitude, err := strconv.ParseFloat(entry["latitude"].(string), 64)
 		if err != nil {
 			log.Panic(err)
