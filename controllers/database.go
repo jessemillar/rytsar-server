@@ -55,5 +55,5 @@ func (cg *ControllerGroup) CountNearbyEnemies(c web.C, w http.ResponseWriter, r 
 		log.Panic(err)
 	}
 
-	fmt.Fprintf(w, "%s\n", data)
+	fmt.Fprintf(w, "%d\n", data)
 }
