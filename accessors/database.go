@@ -42,8 +42,6 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 			}
 		}
 
-		fmt.Printf("%T %v\n", entry["latitude"], entry["latitude"])
-
 		if len(entry["latitude"]) > 0 && len(entry["latitude"]) > 0 {
 			latitude, err := strconv.ParseFloat(entry["latitude"], 64)
 			if err == nil {
@@ -66,7 +64,6 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 		log.Panic(err)
 	}
 
-	fmt.Println(string(jsonData))
 	return string(jsonData), nil
 }
 
