@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+
+	"github.com/kellydunn/golang-geo"
 )
 
 // Returns an array of all loot locations and values to plot on the map in iOS
@@ -28,8 +30,10 @@ func (ag *AccessorGroup) DumpDatabase() (string, error) {
 		for i := 0; i < count; i++ {
 			valuePtrs[i] = &values[i]
 		}
+
 		rows.Scan(valuePtrs...)
 		entry := make(map[string]interface{})
+
 		for i, col := range columns {
 			var v interface{}
 			val := values[i]
@@ -41,6 +45,7 @@ func (ag *AccessorGroup) DumpDatabase() (string, error) {
 			}
 			entry[col] = v
 		}
+
 		tableData = append(tableData, entry)
 	}
 
@@ -51,4 +56,19 @@ func (ag *AccessorGroup) DumpDatabase() (string, error) {
 
 	fmt.Println(string(jsonData))
 	return string(jsonData), nil
+}
+
+func withinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64) bool {
+	radius := float64(1000000)
+
+	p := geo.NewPoint(lat1, lon1)
+	p2 := geo.NewPoint(lat2, lon2)
+
+	dist := p.GreatCircleDistance(p2) // Find the great circle distance between points
+
+	if dist < radius { // Return whether we're inside the radius or not
+		return true
+	} else {
+		return false
+	}
 }
