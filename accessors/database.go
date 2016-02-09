@@ -71,7 +71,7 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 }
 
 func withinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64) bool {
-	radius := float64(1000000)
+	radius := float64(1000)
 
 	p := geo.NewPoint(lat1, lon1)
 	p2 := geo.NewPoint(lat2, lon2)
