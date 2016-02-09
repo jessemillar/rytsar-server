@@ -159,7 +159,7 @@ func (ag *AccessorGroup) AddEnemies(userLatitude float64, userLongitude float64,
 	randomLongitude := userLongitude + y
 
 	for i := 0; i < iterations; i++ {
-		_, err := ag.DB.Exec("INSERT INTO enemies (latitude, longitude) VALUES ($1,$2)", randomLatitude, randomLongitude)
+		_, err := ag.DB.Exec("INSERT INTO enemies (latitude, longitude) VALUES (?,?)", randomLatitude, randomLongitude)
 		if err != nil {
 			log.Panic(err)
 		}
