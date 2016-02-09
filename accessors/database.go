@@ -46,6 +46,8 @@ func (ag *AccessorGroup) DumpDatabase() (string, error) {
 			entry[col] = v
 		}
 
+		log.Print(entry)
+
 		tableData = append(tableData, entry)
 	}
 
