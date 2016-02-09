@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-
-	"github.com/kellydunn/golang-geo"
 )
 
 // Returns an array of all loot locations and values to plot on the map in iOS
@@ -117,7 +115,7 @@ func (ag *AccessorGroup) CountNearbyEnemies(userLatitude float64, userLongitude 
 		}
 	}
 
-	return enemyCount, nil
+	return String(enemyCount), nil
 }
 
 func withinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64, radius float64) bool {
