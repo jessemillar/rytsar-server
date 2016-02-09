@@ -7,6 +7,7 @@ import (
 	"math"
 	"math/rand"
 	"strconv"
+	"time"
 
 	"github.com/kellydunn/golang-geo"
 )
@@ -150,7 +151,8 @@ func WithinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64, radius
 func (ag *AccessorGroup) AddEnemies(userLatitude float64, userLongitude float64, radius float64, currentEnemyCount int, enemyCap int) {
 	iterations := enemyCap - currentEnemyCount
 
-	w := radius * 111 * math.Sqrt(rand.Float64()) // Convert the radius to meters
+	rand.Seed(time.Now().UTC().UnixNano())
+	w := radius * math.Sqrt(rand.Float64())
 	t := 2 * math.Pi * rand.Float64()
 	x := w * math.Cos(t)
 	y := w * math.Sin(t)
