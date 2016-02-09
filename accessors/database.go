@@ -23,7 +23,7 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 	}
 
 	count := len(columns)
-	tableData := make([]map[string]interface{}, 0)
+	tableData := make([]map[string]string, 0)
 	values := make([]interface{}, count)
 	valuePtrs := make([]interface{}, count)
 
@@ -33,28 +33,27 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 		}
 
 		rows.Scan(valuePtrs...)
-		entry := make(map[string]interface{})
+		entry := make(map[string]string)
 
 		for i, col := range columns {
 			val := values[i]
-			b, ok := val.([]byte)
-			if ok {
-				entry[col] = string(b)
-			}
+			entry[col] = fmt.Sprintf("%s", string(val.([]byte)))
 		}
 
 		fmt.Printf("%T %v\n", entry["latitude"], entry["latitude"])
 
-		latitude, err := strconv.ParseFloat(entry["latitude"].(string), 64)
+		latitude, err := strconv.ParseFloat(entry["latitude"], 64)
 		if err == nil {
-			// log.Panic(err)
-			longitude, err := strconv.ParseFloat(entry["longitude"].(string), 64)
+			longitude, err := strconv.ParseFloat(entry["longitude"], 64)
 			if err == nil {
-				// log.Panic(err)
 				if withinRadius(latitude, longitude, userLatitude, userLongitude) { // Only return enemies that are close to the player
 					tableData = append(tableData, entry)
 				}
+			} else {
+				log.Panic(err)
 			}
+		} else {
+			log.Panic(err)
 		}
 	}
 
