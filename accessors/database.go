@@ -4,13 +4,27 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
+	"math/rand"
 	"strconv"
 
 	"github.com/kellydunn/golang-geo"
 )
 
+const nearbyEnemyCap = 100
+
 // Returns an array of all loot locations and values to plot on the map in iOS
 func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float64, radius float64) (string, error) {
+	currentEnemyCount, err := ag.CountNearbyEnemies(userLatitude, userLongitude, radius)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	if currentEnemyCount < nearbyEnemyCap {
+		// Add enemies
+		ag.AddEnemies(userLatitude, userLongitude, radius, currentEnemyCount, nearbyEnemyCap)
+	}
+
 	rows, err := ag.DB.Query("SELECT * FROM enemies")
 	if err != nil {
 		log.Panic(err)
@@ -47,7 +61,7 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 			if err == nil {
 				longitude, err := strconv.ParseFloat(entry["longitude"], 64)
 				if err == nil {
-					if withinRadius(latitude, longitude, userLatitude, userLongitude, radius) { // Only return enemies that are close to the player
+					if WithinRadius(latitude, longitude, userLatitude, userLongitude, radius) { // Only return enemies that are close to the player
 						tableData = append(tableData, entry)
 					}
 				} else {
@@ -105,7 +119,7 @@ func (ag *AccessorGroup) CountNearbyEnemies(userLatitude float64, userLongitude 
 			if err == nil {
 				longitude, err := strconv.ParseFloat(entry["longitude"], 64)
 				if err == nil {
-					if withinRadius(latitude, longitude, userLatitude, userLongitude, radius) { // Only return enemies that are close to the player
+					if WithinRadius(latitude, longitude, userLatitude, userLongitude, radius) { // Only return enemies that are close to the player
 						enemyCount++
 					}
 				} else {
@@ -120,7 +134,7 @@ func (ag *AccessorGroup) CountNearbyEnemies(userLatitude float64, userLongitude 
 	return enemyCount, nil
 }
 
-func withinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64, radius float64) bool {
+func WithinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64, radius float64) bool {
 	p := geo.NewPoint(lat1, lon1)
 	p2 := geo.NewPoint(lat2, lon2)
 
@@ -130,5 +144,24 @@ func withinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64, radius
 		return true
 	} else {
 		return false
+	}
+}
+
+func (ag *AccessorGroup) AddEnemies(userLatitude float64, userLongitude float64, radius float64, currentEnemyCount int, enemyCap int) {
+	iterations := enemyCap - currentEnemyCount
+
+	w := radius * 111 * math.Sqrt(rand.Float64()) // Convert the radius to meters
+	t := 2 * math.Pi * rand.Float64()
+	x := w * math.Cos(t)
+	y := w * math.Sin(t)
+
+	randomLatitude := userLatitude + x
+	randomLongitude := userLongitude + y
+
+	for i := 0; i < iterations; i++ {
+		_, err := ag.DB.Exec("INSERT INTO enemies (latitude, longitude) VALUES ($1,$2)", randomLatitude, randomLongitude)
+		if err != nil {
+			log.Panic(err)
+		}
 	}
 }
