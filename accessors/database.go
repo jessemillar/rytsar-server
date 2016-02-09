@@ -153,7 +153,7 @@ func (ag *AccessorGroup) AddEnemies(userLatitude float64, userLongitude float64,
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	for i := 0; i < iterations; i++ {
-		w := radius / 111 * math.Sqrt(rand.Float64())
+		w := radius * math.Sqrt(rand.Float64())
 		t := 2 * math.Pi * rand.Float64()
 		x := w * math.Cos(t)
 		y := w * math.Sin(t)
