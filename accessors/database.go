@@ -36,15 +36,11 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 		entry := make(map[string]interface{})
 
 		for i, col := range columns {
-			var v interface{}
 			val := values[i]
 			b, ok := val.([]byte)
 			if ok {
-				v = string(b)
-			} else {
-				v = val
+				entry[col] = string(b)
 			}
-			entry[col] = v
 		}
 
 		fmt.Printf("%T %v\n", entry["latitude"], entry["latitude"])
