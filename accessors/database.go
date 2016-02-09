@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/kellydunn/golang-geo"
 )
 
 // Returns an array of all loot locations and values to plot on the map in iOS
-func (ag *AccessorGroup) DumpDatabase() (string, error) {
+func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float64) (string, error) {
 	rows, err := ag.DB.Query("SELECT * FROM enemies")
 	if err != nil {
 		log.Panic(err)
@@ -46,9 +47,19 @@ func (ag *AccessorGroup) DumpDatabase() (string, error) {
 			entry[col] = v
 		}
 
-		log.Print(entry)
+		latitude, err := strconv.ParseFloat(entry["latitude"].(string), 64)
+		if err != nil {
+			log.Panic(err)
+		}
 
-		tableData = append(tableData, entry)
+		longitude, err := strconv.ParseFloat(entry["longitude"].(string), 64)
+		if err != nil {
+			log.Panic(err)
+		}
+
+		if withinRadius(latitude, longitude, userLatitude, userLongitude) { // Only return enemies that are close to the player
+			tableData = append(tableData, entry)
+		}
 	}
 
 	jsonData, err := json.Marshal(tableData)

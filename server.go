@@ -21,6 +21,6 @@ func main() {
 	cg.Accessors = ag
 
 	goji.Get("/health", cg.Health) // Service health
-	goji.Get("/database", cg.DumpDatabase)
+	goji.Get("/database/:latitude/:longitude", cg.DumpDatabase)
 	goji.Serve()
 }

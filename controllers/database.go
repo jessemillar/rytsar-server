@@ -4,13 +4,24 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/zenazn/goji/web"
 )
 
 // Database handles requests for a dump of the loot database
 func (cg *ControllerGroup) DumpDatabase(c web.C, w http.ResponseWriter, r *http.Request) {
-	data, err := cg.Accessors.DumpDatabase()
+	latitude, err := strconv.ParseFloat(c.URLParams["latitude"], 64)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	longitude, err := strconv.ParseFloat(c.URLParams["longitude"], 64)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	data, err := cg.Accessors.DumpDatabase(latitude, longitude)
 	if err != nil {
 		log.Panic(err)
 	}
