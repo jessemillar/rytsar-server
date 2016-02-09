@@ -50,17 +50,15 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 		fmt.Printf("%T %v\n", entry["latitude"], entry["latitude"])
 
 		latitude, err := strconv.ParseFloat(entry["latitude"].(string), 64)
-		if err != nil {
-			log.Panic(err)
-		}
-
-		longitude, err := strconv.ParseFloat(entry["longitude"].(string), 64)
-		if err != nil {
-			log.Panic(err)
-		}
-
-		if withinRadius(latitude, longitude, userLatitude, userLongitude) { // Only return enemies that are close to the player
-			tableData = append(tableData, entry)
+		if err == nil {
+			// log.Panic(err)
+			longitude, err := strconv.ParseFloat(entry["longitude"].(string), 64)
+			if err == nil {
+				// log.Panic(err)
+				if withinRadius(latitude, longitude, userLatitude, userLongitude) { // Only return enemies that are close to the player
+					tableData = append(tableData, entry)
+				}
+			}
 		}
 	}
 
