@@ -10,7 +10,7 @@ import (
 )
 
 // Returns an array of all loot locations and values to plot on the map in iOS
-func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float64) (string, error) {
+func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float64, radius float64) (string, error) {
 	rows, err := ag.DB.Query("SELECT * FROM enemies")
 	if err != nil {
 		log.Panic(err)
@@ -49,7 +49,7 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 			if err == nil {
 				longitude, err := strconv.ParseFloat(entry["longitude"], 64)
 				if err == nil {
-					if withinRadius(latitude, longitude, userLatitude, userLongitude) { // Only return enemies that are close to the player
+					if withinRadius(latitude, longitude, userLatitude, userLongitude, radius) { // Only return enemies that are close to the player
 						tableData = append(tableData, entry)
 					}
 				} else {
@@ -70,9 +70,7 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 	return string(jsonData), nil
 }
 
-func withinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64) bool {
-	radius := float64(1000)
-
+func withinRadius(lat1 float64, lon1 float64, lat2 float64, lon2 float64, radius float64) bool {
 	p := geo.NewPoint(lat1, lon1)
 	p2 := geo.NewPoint(lat2, lon2)
 

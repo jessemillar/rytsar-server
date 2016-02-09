@@ -21,7 +21,12 @@ func (cg *ControllerGroup) DumpDatabase(c web.C, w http.ResponseWriter, r *http.
 		log.Panic(err)
 	}
 
-	data, err := cg.Accessors.DumpDatabase(latitude, longitude)
+	radius, err := strconv.ParseFloat(c.URLParams["radius"], 64)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	data, err := cg.Accessors.DumpDatabase(latitude, longitude, radius)
 	if err != nil {
 		log.Panic(err)
 	}
