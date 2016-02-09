@@ -22,5 +22,6 @@ func main() {
 
 	goji.Get("/health", cg.Health) // Service health
 	goji.Get("/database/:latitude/:longitude/:radius", cg.DumpDatabase)
+	goji.Get("/count/:latitude/:longitude/:radius", cg.CountNearbyEnemies)
 	goji.Serve()
 }
