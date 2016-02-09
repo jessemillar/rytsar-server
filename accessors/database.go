@@ -37,7 +37,9 @@ func (ag *AccessorGroup) DumpDatabase(userLatitude float64, userLongitude float6
 
 		for i, col := range columns {
 			val := values[i]
-			entry[col] = fmt.Sprintf("%s", string(val.([]byte)))
+			if val != nil {
+				entry[col] = fmt.Sprintf("%s", string(val.([]byte)))
+			}
 		}
 
 		fmt.Printf("%T %v\n", entry["latitude"], entry["latitude"])
