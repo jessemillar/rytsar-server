@@ -168,8 +168,8 @@ func (ag *AccessorGroup) AddEnemies(userLatitude float64, userLongitude float64,
 	}
 }
 
-func (ag *AccessorGroup) DeleteEnemy(enemyLatitude float64, enemyLongitude float64) (string, error) {
-	_, err := ag.DB.Exec("DELETE FROM enemies WHERE latitude=? AND longitude=?", enemyLatitude, enemyLongitude)
+func (ag *AccessorGroup) DeleteEnemy(enemyID int) (string, error) {
+	_, err := ag.DB.Exec("DELETE FROM enemies WHERE id=?", enemyID)
 	if err != nil {
 		log.Panic(err)
 	}
