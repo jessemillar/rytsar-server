@@ -23,6 +23,6 @@ func main() {
 	goji.Get("/health", cg.Health) // Service health
 	goji.Get("/database/:latitude/:longitude/:radius", cg.DumpDatabase)
 	goji.Get("/count/:latitude/:longitude/:radius", cg.CountNearbyEnemies)
-	goji.Delete("/delete/:latitude/:longitude", cg.DeleteEnemy)
+	goji.Delete("/delete/:id", cg.DeleteEnemy)
 	goji.Serve()
 }
