@@ -59,17 +59,12 @@ func (cg *ControllerGroup) CountNearbyEnemies(c web.C, w http.ResponseWriter, r 
 }
 
 func (cg *ControllerGroup) DeleteEnemy(c web.C, w http.ResponseWriter, r *http.Request) {
-	latitude, err := strconv.ParseFloat(c.URLParams["latitude"], 64)
+	enemyID, err := strconv.ParseInt(c.URLParams["id"], 10, 64)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	longitude, err := strconv.ParseFloat(c.URLParams["longitude"], 64)
-	if err != nil {
-		log.Panic(err)
-	}
-
-	data, err := cg.Accessors.DeleteEnemy(latitude, longitude)
+	data, err := cg.Accessors.DeleteEnemy(int(enemyID))
 	if err != nil {
 		log.Panic(err)
 	}
